@@ -4,17 +4,21 @@ const loader = document.getElementById('loader');
 let ready = false;
 let imagesLoaded = 0;
 let totalImages = 0;
-const photosArray = [];
+let photosArray = [];
 
-const count = 30;
-const apiKey = 'hwJVGK3m4YeEk0qdkfyhmEYqHheU_hlNrVArKkFf5oc';
-const apiUrl = `https://api.unsplash.com/photos/random/?client_id=${apiKey}&count=${count}`;
+let count = 5;
+const apiKey = 'dNkadP1EJyJYRWKOSghbi-n-3y83bdj-oKkVPT_w1ag';
+let apiUrl = `https://api.unsplash.com/photos/random/?client_id=${apiKey}&count=${count}`;
 
 const imageLoaded = () => {
   imagesLoaded++;
   if (imagesLoaded === totalImages) {
     ready = true;
     loader.hidden = true;
+    if (count !== 7) {
+      count = 7;
+      apiUrl = `https://api.unsplash.com/photos/random/?client_id=${apiKey}&count=${count}`;
+    }
   }
 }
 
@@ -51,8 +55,7 @@ const displayPhotos = () => {
 const getPhotosFromUnsplash = async () => {
   try {
     const response = await fetch(apiUrl);
-    let photos = await response.json();
-    photosArray.push(...photos);
+    photosArray = await response.json();
     displayPhotos();
   } catch (error) {
     console.log(error);
